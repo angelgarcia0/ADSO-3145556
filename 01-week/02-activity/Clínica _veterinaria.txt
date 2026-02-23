@@ -1,0 +1,20 @@
+Una clínica veterinaria requiere implementar un sistema con el cual puedan almacenar información de sus clientes, agendar citas, vender productos en línea, permitir pagos en línea, gestionar inventario y generar reporte de ventas.
+
+Requerimientos:
+
+1. Iniciar sesión
+1.2 Registrar usuarios
+1.3 Recuperar contraseña
+1.4 Gestionar perfil de usuario
+
+2. Registrar información de mascotas.
+
+3. Gestionar agendamiento de citas.
+
+4. Permitir pagos en línea.
+
+5. Generar histórico de ventas.
+
+6. Gestionar inventario.
+
+
