@@ -1,0 +1,184 @@
+@startuml
+
+' CONFIGURACIÓN
+
+hide circle
+skinparam linetype ortho
+
+
+' MÓDULO SEGURIDAD 
+
+
+entity PERSON {
+  +id_person : int <<PK>>
+  --
+  first_name : varchar
+  last_name : varchar
+  email : varchar
+  phone : varchar
+  created_at : datetime
+}
+
+entity USER {
+  +id_user : int <<PK>>
+  --
+  id_person : int <<FK>>
+  username : varchar
+  password_hash : varchar
+  status : bit
+  created_at : datetime
+}
+
+entity ROLE {
+  +id_role : int <<PK>>
+  --
+  role_name : varchar
+  description : varchar
+  status : bit
+}
+
+entity MODULE {
+  +id_module : int <<PK>>
+  --
+  module_name : varchar
+  description : varchar
+  status : bit
+}
+
+entity VIEW_APP {
+  +id_view : int <<PK>>
+  --
+  view_name : varchar
+  route : varchar
+  status : bit
+}
+
+entity ACTION_APP {
+  +id_action : int <<PK>>
+  --
+  action_name : varchar
+  description : varchar
+}
+
+entity USER_ROLE {
+  +id_user_role : int <<PK>>
+  --
+  id_user : int <<FK>>
+  id_role : int <<FK>>
+}
+
+entity ROLE_MODULE {
+  +id_role_module : int <<PK>>
+  --
+  id_role : int <<FK>>
+  id_module : int <<FK>>
+}
+
+entity VIEW_MODULE {
+  +id_view_module : int <<PK>>
+  --
+  id_view : int <<FK>>
+  id_module : int <<FK>>
+}
+
+entity VIEW_ACTION {
+  +id_view_action : int <<PK>>
+  --
+  id_view : int <<FK>>
+  id_action : int <<FK>>
+}
+
+
+' MÓDULO ECOMMERCE
+
+entity CATEGORY {
+  +id_category : int <<PK>>
+  --
+  category_name : varchar
+  description : varchar
+  status : bit
+}
+
+entity PRODUCT {
+  +id_product : int <<PK>>
+  --
+  id_category : int <<FK>>
+  product_name : varchar
+  description : varchar
+  price : decimal
+  status : bit
+  created_at : datetime
+}
+
+entity INVENTORY {
+  +id_inventory : int <<PK>>
+  --
+  id_product : int <<FK>>
+  stock : int
+  last_update : datetime
+}
+
+entity CART {
+  +id_cart : int <<PK>>
+  --
+  id_user : int <<FK>>
+  status : varchar
+  created_at : datetime
+}
+
+entity CART_DETAIL {
+  +id_cart_detail : int <<PK>>
+  --
+  id_cart : int <<FK>>
+  id_product : int <<FK>>
+  quantity : int
+  unit_price : decimal
+}
+
+entity BILL {
+  +id_bill : int <<PK>>
+  --
+  id_user : int <<FK>>
+  total_amount : decimal
+  bill_date : datetime
+  status : varchar
+}
+
+entity BILL_DETAIL {
+  +id_bill_detail : int <<PK>>
+  --
+  id_bill : int <<FK>>
+  id_product : int <<FK>>
+  quantity : int
+  unit_price : decimal
+  subtotal : decimal
+}
+
+
+' RELACIONES 
+
+PERSON ||--|| USER
+USER ||--o{ USER_ROLE
+ROLE ||--o{ USER_ROLE
+
+ROLE ||--o{ ROLE_MODULE
+MODULE ||--o{ ROLE_MODULE
+
+MODULE ||--o{ VIEW_MODULE
+VIEW_APP ||--o{ VIEW_MODULE
+
+VIEW_APP ||--o{ VIEW_ACTION
+ACTION_APP ||--o{ VIEW_ACTION
+
+CATEGORY ||--o{ PRODUCT
+PRODUCT ||--|| INVENTORY
+
+USER ||--o{ CART
+CART ||--o{ CART_DETAIL
+PRODUCT ||--o{ CART_DETAIL
+
+USER ||--o{ BILL
+BILL ||--o{ BILL_DETAIL
+PRODUCT ||--o{ BILL_DETAIL
+
+@enduml

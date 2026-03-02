@@ -1,0 +1,126 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+
+' MÓDULO SEGURIDAD 
+
+class Person {
+  - idPerson : int
+  - firstName : String
+  - lastName : String
+  - email : String
+  - phone : String
+  - createdAt : Date
+}
+
+class User {
+  - idUser : int
+  - username : String
+  - passwordHash : String
+  - status : boolean
+  - createdAt : Date
+}
+
+class Role {
+  - idRole : int
+  - roleName : String
+  - description : String
+  - status : boolean
+}
+
+class Module {
+  - idModule : int
+  - moduleName : String
+  - description : String
+  - status : boolean
+}
+
+class ViewApp {
+  - idView : int
+  - viewName : String
+  - route : String
+  - status : boolean
+}
+
+class ActionApp {
+  - idAction : int
+  - actionName : String
+  - description : String
+}
+
+' Relaciones Seguridad
+
+Person "1" -- "1" User
+User "1" -- "0..*" Role
+Role "1" -- "0..*" Module
+Module "1" -- "0..*" ViewApp
+ViewApp "1" -- "0..*" ActionApp
+
+
+
+' MÓDULO ECOMMERCE 
+
+
+class Category {
+  - idCategory : int
+  - categoryName : String
+  - description : String
+  - status : boolean
+}
+
+class Product {
+  - idProduct : int
+  - productName : String
+  - description : String
+  - price : double
+  - status : boolean
+  - createdAt : Date
+}
+
+class Inventory {
+  - idInventory : int
+  - stock : int
+  - lastUpdate : Date
+}
+
+class Cart {
+  - idCart : int
+  - status : String
+  - createdAt : Date
+}
+
+class CartDetail {
+  - idCartDetail : int
+  - quantity : int
+  - unitPrice : double
+}
+
+class Bill {
+  - idBill : int
+  - totalAmount : double
+  - billDate : Date
+  - status : String
+}
+
+class BillDetail {
+  - idBillDetail : int
+  - quantity : int
+  - unitPrice : double
+  - subtotal : double
+}
+
+' Relaciones Ecommerce
+
+Category "1" -- "0..*" Product
+Product "1" -- "1" Inventory
+
+User "1" -- "0..*" Cart
+Cart "1" *-- "1..*" CartDetail
+Product "1" -- "0..*" CartDetail
+
+User "1" -- "0..*" Bill
+Bill "1" *-- "1..*" BillDetail
+Product "1" -- "0..*" BillDetail
+
+@enduml

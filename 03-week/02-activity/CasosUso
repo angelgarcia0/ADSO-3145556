@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Cliente
+actor Administrador
+actor "Sistema de Pago" as Pago
+
+rectangle "Sistema de Carrito de Compras" {
+
+  Cliente --> (Registrarse)
+  Cliente --> (Iniciar Sesión)
+  Cliente --> (Explorar Productos)
+  Cliente --> (Gestionar Carrito)
+  Cliente --> (Confirmar Compra)
+
+  Administrador --> (Gestionar Usuarios)
+  Administrador --> (Gestionar Roles)
+  Administrador --> (Gestionar Productos)
+  Administrador --> (Gestionar Inventario)
+
+  (Confirmar Compra) --> (Validar Stock) : <<include>>
+  (Confirmar Compra) --> (Generar Factura) : <<include>>
+  (Confirmar Compra) --> (Procesar Pago) : <<include>>
+
+  Pago --> (Procesar Pago)
+}
+
+@enduml
